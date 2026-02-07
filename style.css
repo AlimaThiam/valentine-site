@@ -1088,55 +1088,19 @@ h1 {
     flex-wrap: wrap;
 }
 
-.responses-list {
-    margin: 20px 0;
-}
-
-.response-item {
-    background: linear-gradient(135deg, var(--white), var(--pink-light));
+/* ---------- PAGE RÉPONSE CADEAU ---------- */
+.response-result-card {
+    background: linear-gradient(135deg, var(--pink-light), var(--white));
     border: 2px solid var(--pink);
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
-    animation: slideInLeft 0.4s ease-out both;
+    border-radius: 16px;
+    padding: 24px 20px;
+    margin: 20px 0;
+    animation: fadeInUp 0.6s ease-out 0.3s both;
 }
 
-.response-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    border-bottom: 1px dashed var(--pink);
-    padding-bottom: 8px;
-}
-
-.response-number {
-    background: var(--red);
-    color: var(--white);
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.response-time {
-    font-size: 0.75rem;
-    color: var(--text-light);
-}
-
-.response-content p {
-    margin: 4px 0;
-    font-size: 1rem;
-}
-
-.response-answer {
-    color: var(--red);
-    font-weight: 600;
-}
-
-.response-gift {
-    color: var(--text);
-    font-size: 1.1rem;
+.response-gift-display {
+    text-align: center;
+    padding: 16px 0;
 }
 
 .no-responses {

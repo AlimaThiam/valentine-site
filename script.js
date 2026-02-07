@@ -69,18 +69,13 @@ function loadURLParams() {
     const msg = params.get("msg");
     const secret = params.get("secret");
     const genre = params.get("genre"); // "f" pour fille, "m" pour garçon
-    const sender = params.get("sender"); // Mode expéditeur pour voir les réponses
-    const linkId = params.get("id"); // ID unique du lien
+    const response = params.get("response"); // Réponse cadeau reçue
+    const fromName = params.get("from"); // Nom de qui a répondu
 
-    // Mode expéditeur - afficher les réponses reçues
-    if (sender === "true" && linkId) {
-        showSenderDashboard(linkId);
+    // Mode réponse - l'expéditeur voit la réponse de sa valentine
+    if (response) {
+        showResponseResult(response, fromName);
         return;
-    }
-
-    // Sauvegarder l'ID du lien pour pouvoir associer les réponses
-    if (linkId) {
-        window.currentLinkId = linkId;
     }
 
     if (name) {
@@ -129,88 +124,66 @@ function loadURLParams() {
 loadURLParams();
 
 /* ================================================
-   TABLEAU DE BORD EXPÉDITEUR
+   PAGE RÉPONSE - L'expéditeur voit le choix de sa Valentine
    ================================================ */
-function showSenderDashboard(linkId) {
-    // Cacher les écrans normaux et afficher le dashboard
+function showResponseResult(gift, fromName) {
+    // Cacher les écrans normaux
     mainScreen.style.display = 'none';
     yesScreen.style.display = 'none';
 
-    // Créer le dashboard
-    const dashboard = document.createElement('section');
-    dashboard.id = 'sender-dashboard';
-    dashboard.className = 'screen active';
-    dashboard.innerHTML = `
+    const giftEmojis = {
+        chocolats: "🍫", fleurs: "💐", nounours: "🧸",
+        bijoux: "💎", argent: "💰", shein: "🛍️", surprise: "🎲"
+    };
+    const giftNames = {
+        chocolats: "Boîte de chocolats", fleurs: "Bouquet de fleurs", nounours: "Nounours",
+        bijoux: "Bijoux", argent: "Bouquet d'argent", shein: "Panier SHEIN", surprise: "Surprends-moi !"
+    };
+
+    const emoji = giftEmojis[gift] || "🎁";
+    const giftName = giftNames[gift] || gift;
+    const displayName = fromName ? decodeURIComponent(fromName) : "Ta Valentine";
+
+    const resultScreen = document.createElement('section');
+    resultScreen.className = 'screen active';
+    resultScreen.innerHTML = `
         <div class="card fade-in">
-            <h1>📊 Tableau de Bord</h1>
-            <h2>Réponses reçues pour ton lien Valentine 💕</h2>
+            <div class="big-heart-anim">💖</div>
+            <h1 style="font-family: var(--font-display); color: var(--red); font-size: 2rem;">Bonne nouvelle ! 🎉</h1>
+            <h2 style="font-family: var(--font-display); color: var(--text); margin: 12px 0;">${displayName} a dit <strong style="color: var(--red);">OUI</strong> ! 💕</h2>
             
-            <div id="responses-container">
-                <div class="loading">
-                    <p>🔍 Vérification des réponses...</p>
+            <div class="response-result-card">
+                <p style="font-size: 1rem; color: var(--text-light); margin-bottom: 12px;">Et voici le cadeau choisi :</p>
+                <div class="response-gift-display">
+                    <span style="font-size: 4rem; display: block; margin-bottom: 8px;">${emoji}</span>
+                    <span style="font-family: var(--font-display); font-size: 1.5rem; color: var(--red); font-weight: 700;">${giftName}</span>
                 </div>
             </div>
+
+            <p style="font-size: 1.1rem; margin-top: 20px; color: var(--text-light);">Maintenant tu sais quoi offrir ! 🥰💝</p>
             
-            <div class="dashboard-actions">
-                <button id="refresh-btn" class="btn btn-generate">🔄 Actualiser</button>
-                <button id="new-link-btn" class="btn btn-yes">➕ Créer nouveau lien</button>
+            <div style="margin-top: 24px;">
+                <button class="btn btn-yes" onclick="location.href=location.pathname">💌 Créer mon propre lien</button>
             </div>
         </div>
     `;
 
-    document.body.appendChild(dashboard);
+    document.body.appendChild(resultScreen);
 
-    // Charger les réponses
-    loadResponses(linkId);
+    // Lancer des confettis de célébration
+    setTimeout(() => {
+        const emojis = ["💖", "🎉", "✨", emoji, "💕", "🥳"];
+        for (let i = 0; i < 25; i++) {
+            setTimeout(() => createConfettiHeart(emojis), i * 80);
+        }
+    }, 500);
 
-    // Gestionnaires d'événements
-    document.getElementById('refresh-btn').addEventListener('click', () => loadResponses(linkId));
-    document.getElementById('new-link-btn').addEventListener('click', () => {
-        location.href = location.pathname; // Retour à l'accueil
-    });
-}
-
-function loadResponses(linkId) {
-    const container = document.getElementById('responses-container');
-
-    // Récupérer les réponses du localStorage
-    const responses = JSON.parse(localStorage.getItem(`valentine_responses_${linkId}`) || '[]');
-
-    if (responses.length === 0) {
-        container.innerHTML = `
-            <div class="no-responses">
-                <p>😴 Aucune réponse pour le moment...</p>
-                <p>Partage ton lien et reviens voir ! 💌</p>
-            </div>
-        `;
-    } else {
-        let html = '<div class="responses-list">';
-        responses.forEach((response, index) => {
-            const giftEmojis = {
-                chocolats: "🍫", fleurs: "💐", nounours: "🧸",
-                bijoux: "💎", argent: "💰", shein: "🛍️", surprise: "🎲"
-            };
-
-            const giftNames = {
-                chocolats: "Boîte de chocolats", fleurs: "Bouquet de fleurs", nounours: "Nounours",
-                bijoux: "Bijoux", argent: "Bouquet d'argent", shein: "Panier SHEIN", surprise: "Surprise"
-            };
-
-            html += `
-                <div class="response-item">
-                    <div class="response-header">
-                        <span class="response-number">#${index + 1}</span>
-                        <span class="response-time">${new Date(response.timestamp).toLocaleString('fr-FR')}</span>
-                    </div>
-                    <div class="response-content">
-                        <p class="response-answer">💖 A dit <strong>OUI</strong> !</p>
-                        <p class="response-gift">${giftEmojis[response.gift]} <strong>${giftNames[response.gift]}</strong></p>
-                    </div>
-                </div>
-            `;
-        });
-        html += '</div>';
-        container.innerHTML = html;
+    // Musique
+    if (!musicPlaying) {
+        startMusic();
+        musicToggle.textContent = "🎵";
+        musicToggle.classList.add("playing");
+        musicPlaying = true;
     }
 }
 
@@ -802,7 +775,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Envoie l'information du cadeau sélectionné et sauvegarde la réponse
+ * Quand le destinataire choisit un cadeau, on lui propose d'envoyer sa réponse
  */
 function sendGiftSelection(gift) {
     const giftNames = {
@@ -815,27 +788,26 @@ function sendGiftSelection(gift) {
         surprise: "🎲 Surprise"
     };
 
-    // Sauvegarder la réponse dans localStorage si on a un ID de lien
-    if (window.currentLinkId) {
-        const response = {
-            gift: gift,
-            timestamp: new Date().toISOString(),
-            answered: true
-        };
+    // Construire l'URL de réponse que l'expéditeur pourra ouvrir
+    const baseURL = window.location.origin + window.location.pathname;
+    const params = new URLSearchParams(window.location.search);
+    const recipientName = params.get('name') || '';
+    const responseParams = new URLSearchParams();
+    responseParams.set('response', gift);
+    if (recipientName) responseParams.set('from', recipientName);
+    const responseURL = baseURL + '?' + responseParams.toString();
 
-        const existingResponses = JSON.parse(localStorage.getItem(`valentine_responses_${window.currentLinkId}`) || '[]');
-        existingResponses.push(response);
-        localStorage.setItem(`valentine_responses_${window.currentLinkId}`, JSON.stringify(existingResponses));
-    }
+    // Texte de partage
+    const shareText = `💖 J'ai dit OUI ! Et j'ai choisi : ${giftNames[gift]} 🎁\nVoir ma réponse ici 👇`;
 
-    // Créer une notification temporaire
+    // Créer la notification avec bouton d'envoi
     const notification = document.createElement('div');
     notification.className = 'gift-notification';
     notification.innerHTML = `
         <div class="notification-content">
-            <p><strong>📧 Réponse envoyée !</strong></p>
-            <p>"${giftNames[gift]} choisi" 💌</p>
-            ${window.currentLinkId ? '<p class="saved-notice">💾 Réponse sauvegardée</p>' : ''}
+            <p><strong>✅ ${giftNames[gift]} choisi !</strong></p>
+            <p style="font-size:0.85rem; margin-top:8px;">Envoie ta réponse pour qu'il/elle sache 💌</p>
+            <button id="btn-send-response" class="btn btn-share" style="margin-top:10px; width:100%; font-size:0.95rem; padding:12px;">📤 Envoyer ma réponse</button>
         </div>
     `;
 
@@ -844,11 +816,23 @@ function sendGiftSelection(gift) {
     // Animation d'apparition
     setTimeout(() => notification.classList.add('show'), 100);
 
-    // Disparition automatique
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => notification.remove(), 500);
-    }, 3000);
+    // Gestionnaire du bouton envoyer
+    document.getElementById('btn-send-response').addEventListener('click', () => {
+        if (navigator.share) {
+            navigator.share({
+                title: '💖 Réponse Valentine',
+                text: shareText,
+                url: responseURL,
+            }).catch(() => {
+                // Fallback WhatsApp si annulé
+                window.open(`https://wa.me/?text=${encodeURIComponent(shareText + '\n' + responseURL)}`, '_blank');
+            });
+        } else {
+            window.open(`https://wa.me/?text=${encodeURIComponent(shareText + '\n' + responseURL)}`, '_blank');
+        }
+    });
+
+    // Ne PAS auto-fermer — on laisse le bouton visible
 }
 
 /**
@@ -938,13 +922,7 @@ btnGenerate.addEventListener("click", () => {
 
     const destinataireURL = baseURL + "?" + params.toString();
 
-    // Construire l'URL pour l'expéditeur (dashboard)
-    const senderParams = new URLSearchParams();
-    senderParams.set("sender", "true");
-    senderParams.set("id", linkId);
-    const senderURL = baseURL + "?" + senderParams.toString();
-
-    // Afficher les deux liens
+    // Afficher le lien à partager
     generatedLinkBox.innerHTML = `
         <div class="link-section">
             <label>🎯 Lien à envoyer à ${name} :</label>
@@ -954,15 +932,7 @@ btnGenerate.addEventListener("click", () => {
                 <button class="btn btn-share" data-link="destinataire">📤 Partager</button>
             </div>
         </div>
-        
-        <div class="link-section">
-            <label>📊 Ton lien pour voir les réponses :</label>
-            <input type="text" value="${senderURL}" readonly class="generated-link-input" id="sender-link" />
-            <div class="link-actions">
-                <button class="btn btn-copy" data-link="sender">📋 Copier</button>
-                <button class="btn btn-visit" onclick="window.open('${senderURL}', '_blank')">👀 Voir dashboard</button>
-            </div>
-        </div>
+        <p style="font-size:0.85rem; color: var(--text-light); margin-top:12px; text-align:center;">💡 Quand ${name} choisira un cadeau, il/elle pourra t'envoyer sa réponse directement !</p>
     `;
     generatedLinkBox.classList.remove("hidden");
     copyFeedback.classList.add("hidden");
