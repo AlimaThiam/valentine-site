@@ -1,0 +1,1411 @@
+/* ================================================
+   VALENTINE'S DAY – style.css
+   Mobile-first, romantique & fun
+   ================================================ */
+
+/* ---------- VARIABLES ---------- */
+:root {
+    --red: #e74c6f;
+    --red-dark: #c0392b;
+    --pink: #f8a5c2;
+    --pink-light: #fce4ec;
+    --beige: #fff5ee;
+    --beige-dark: #f5e6d8;
+    --white: #ffffff;
+    --text: #4a2040;
+    --text-light: #7a5070;
+    --gold: #f9ca24;
+    --shadow: rgba(200, 80, 100, 0.25);
+    --font-display: "Dancing Script", cursive;
+    --font-body: "Quicksand", sans-serif;
+}
+
+/* ---------- RESET ---------- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, var(--pink-light), var(--beige), var(--pink-light));
+    color: var(--text);
+    min-height: 100dvh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ---------- CŒURS ANIMÉS EN ARRIÈRE-PLAN ---------- */
+#hearts-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.floating-heart {
+    position: absolute;
+    top: -60px;
+    animation: floatDown linear infinite;
+    opacity: 0.6;
+    user-select: none;
+    pointer-events: none;
+    filter: drop-shadow(0 0 4px rgba(231, 76, 111, 0.3));
+}
+
+@keyframes floatDown {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.7;
+    }
+
+    90% {
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateY(110vh) rotate(360deg) scale(0.5);
+        opacity: 0;
+    }
+}
+
+/* ---------- CONFETTIS / CŒURS FESTIFS ---------- */
+#confetti-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.confetti-heart {
+    position: absolute;
+    top: -40px;
+    font-size: 1.5rem;
+    animation: confettiFall linear forwards;
+    pointer-events: none;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(110vh) rotate(720deg) scale(0.3);
+        opacity: 0;
+    }
+}
+
+/* ---------- BOUTON MUSIQUE ---------- */
+.music-btn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 2000;
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50%;
+    background: var(--white);
+    box-shadow: 0 3px 12px var(--shadow);
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 20px var(--shadow);
+}
+
+.music-btn.playing {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+}
+
+/* ---------- ÉCRANS ---------- */
+.screen {
+    display: none;
+    min-height: 100dvh;
+    padding: 24px 16px;
+    position: relative;
+    z-index: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* ---------- CARTE PRINCIPALE ---------- */
+.card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 40px 28px;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 8px 40px var(--shadow);
+    border: 1px solid rgba(255, 200, 210, 0.4);
+    position: relative;
+    overflow: visible;
+}
+
+/* ---------- FADE-IN ANIMATION ---------- */
+.fade-in {
+    animation: fadeInUp 0.8s ease-out both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ---------- ENVELOPPE ICÔNE ---------- */
+.envelope-icon {
+    font-size: 4rem;
+    animation: envelopeBounce 2s ease-in-out infinite;
+    margin-bottom: 16px;
+}
+
+@keyframes envelopeBounce {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-3deg);
+    }
+
+    50% {
+        transform: translateY(-12px) rotate(3deg);
+    }
+}
+
+/* ---------- TITRES ---------- */
+h1 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--red);
+    line-height: 1.3;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 8px rgba(231, 76, 111, 0.15);
+}
+
+#name-display {
+    display: block;
+    font-size: 1.6rem;
+    color: var(--text-light);
+    margin-bottom: 4px;
+}
+
+.custom-msg {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+/* ---------- BOUTONS ---------- */
+.buttons-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    position: relative;
+    min-height: 60px;
+}
+
+.btn {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-yes {
+    background: linear-gradient(135deg, var(--red), #ff6b8a);
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(231, 76, 111, 0.4);
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+.btn-yes:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 25px rgba(231, 76, 111, 0.6);
+}
+
+@keyframes glowPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 4px 15px rgba(231, 76, 111, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 4px 30px rgba(231, 76, 111, 0.7), 0 0 60px rgba(231, 76, 111, 0.2);
+    }
+}
+
+.btn-no {
+    background: var(--beige-dark);
+    color: var(--text-light);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    transition: all 0.15s ease;
+    /* Le bouton pourra être déplacé en position absolute */
+}
+
+.btn-no:hover {
+    background: var(--pink);
+}
+
+.btn-no.runaway {
+    position: fixed;
+    z-index: 999;
+    transition: left 0.2s ease, top 0.2s ease;
+}
+
+/* Animation ludique quand on clique sur "Non" */
+.btn-no.jump {
+    animation: noJump 420ms cubic-bezier(.2, .9, .3, 1) both;
+}
+
+@keyframes noJump {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    30% {
+        transform: translateY(-18px) rotate(-6deg);
+    }
+
+    60% {
+        transform: translateY(0) rotate(6deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+/* ---------- COMPTEUR TENTATIVES ---------- */
+.no-counter {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 16px;
+    font-style: italic;
+}
+
+/* ---------- ÉCRAN YES – CÉLÉBRATION ---------- */
+.celebration-title {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    color: var(--red);
+    margin-bottom: 12px;
+    animation: celebrationPop 0.6s ease-out both;
+}
+
+@keyframes celebrationPop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.celebration-text {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    color: var(--text);
+}
+
+.big-heart-anim {
+    font-size: 5rem;
+    animation: heartBeat 1s ease-in-out infinite;
+    margin-bottom: 16px;
+}
+
+@keyframes heartBeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    15% {
+        transform: scale(1.25);
+    }
+
+    30% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.15);
+    }
+
+    60% {
+        transform: scale(1);
+    }
+}
+
+/* ---------- MESSAGE SECRET ---------- */
+.secret-box {
+    margin: 24px 0;
+}
+
+.btn-secret {
+    background: linear-gradient(135deg, #8e44ad, #c0392b);
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(142, 68, 173, 0.35);
+}
+
+.btn-secret:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(142, 68, 173, 0.5);
+}
+
+.secret-content {
+    margin-top: 16px;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--pink-light), var(--beige));
+    border-radius: 16px;
+    border: 1px dashed var(--pink);
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+.poem {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--red-dark);
+}
+
+/* ---------- MESSAGE SECRET PERSONNALISÉ ---------- */
+.secret-custom-text {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: var(--red-dark);
+    white-space: pre-line;
+}
+
+/* ---------- BOUQUET DE ROSES OVERLAY ---------- */
+.bouquet-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: bouquetFadeIn 0.6s ease-out both;
+    cursor: pointer;
+}
+
+.bouquet-overlay.hiding {
+    animation: bouquetFadeOut 0.8s ease-in both;
+}
+
+.bouquet {
+    text-align: center;
+    animation: bouquetPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.bouquet-overlay.hiding .bouquet {
+    animation: bouquetShrink 0.7s ease-in both;
+}
+
+.bouquet-roses {
+    font-size: 3.5rem;
+    line-height: 1.3;
+    filter: drop-shadow(0 4px 20px rgba(200, 50, 80, 0.5));
+    animation: bouquetSway 2s ease-in-out infinite;
+}
+
+.bouquet-ribbon {
+    font-size: 3rem;
+    margin-top: -8px;
+}
+
+.bouquet-text {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    color: var(--white);
+    margin-top: 12px;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+@keyframes bouquetFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes bouquetFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes bouquetPop {
+    0% {
+        transform: scale(0) rotate(-20deg);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.15) rotate(5deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes bouquetShrink {
+    from {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+
+    to {
+        transform: scale(0) rotate(20deg);
+        opacity: 0;
+    }
+}
+
+@keyframes bouquetSway {
+
+    0%,
+    100% {
+        transform: rotate(-2deg);
+    }
+
+    50% {
+        transform: rotate(2deg);
+    }
+}
+
+/* ---------- PÉTALES DE ROSES QUI TOMBENT ---------- */
+.falling-petal {
+    position: fixed;
+    top: -40px;
+    font-size: 1.8rem;
+    pointer-events: none;
+    z-index: 3001;
+    animation: petalFall linear forwards;
+    filter: drop-shadow(0 2px 6px rgba(200, 50, 80, 0.3));
+}
+
+@keyframes petalFall {
+    0% {
+        transform: translateY(0) rotate(0deg) translateX(0);
+        opacity: 1;
+    }
+
+    25% {
+        transform: translateY(25vh) rotate(90deg) translateX(30px);
+    }
+
+    50% {
+        transform: translateY(50vh) rotate(180deg) translateX(-20px);
+    }
+
+    75% {
+        transform: translateY(75vh) rotate(270deg) translateX(25px);
+    }
+
+    100% {
+        transform: translateY(110vh) rotate(360deg) translateX(-10px);
+        opacity: 0;
+    }
+}
+
+/* ---------- TEXTAREA SECRET ---------- */
+.personalize-form textarea {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: 12px 16px;
+    border: 2px solid var(--pink);
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.3s;
+    resize: vertical;
+    min-height: 60px;
+}
+
+.personalize-form textarea:focus {
+    border-color: var(--red);
+}
+
+.personalize-form textarea::placeholder {
+    color: #c9a0b0;
+}
+
+/* ---------- SÉLECTION DE CADEAUX ---------- */
+.gift-selection {
+    margin: 28px 0;
+    padding: 24px 20px;
+    background: linear-gradient(135deg, #fff0f5, #ffeef2);
+    border-radius: 16px;
+    border: 1px solid rgba(231, 76, 111, 0.15);
+}
+
+.gift-selection h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--red);
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.gift-hint {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.gifts-grid {
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.gifts-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.gift-option {
+    cursor: pointer;
+    display: block;
+}
+
+.gift-option input[type="radio"] {
+    display: none;
+}
+
+.gift-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 12px;
+    background: var(--white);
+    border: 2px solid var(--pink);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    min-height: 80px;
+    justify-content: center;
+}
+
+.gift-card:hover {
+    border-color: var(--red);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(231, 76, 111, 0.2);
+}
+
+.gift-option input[type="radio"]:checked+.gift-card {
+    border-color: var(--red);
+    background: linear-gradient(135deg, var(--pink-light), var(--white));
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(231, 76, 111, 0.3);
+    animation: giftSelected 0.4s ease-out;
+}
+
+@keyframes giftSelected {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+.gift-emoji {
+    font-size: 1.8rem;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.gift-text {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+    line-height: 1.3;
+}
+
+.gift-feedback {
+    text-align: center;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--beige), var(--pink-light));
+    border-radius: 8px;
+    animation: fadeInUp 0.5s ease-out both;
+}
+
+.gift-feedback p {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--red);
+    margin: 0;
+}
+
+/* Style spécial pour "Surprends-moi" */
+.gift-surprise {
+    background: linear-gradient(45deg, #ff6b8a, #f8a5c2, #8e44ad, #e056a0);
+    background-size: 400% 400%;
+    animation: rainbowGradient 2s ease-in-out infinite;
+    border-color: var(--red) !important;
+}
+
+.gift-surprise:hover {
+    animation: rainbowGradient 1s ease-in-out infinite, giftHover 0.3s ease;
+}
+
+/* Container pour l'option surprise centrée */
+.gift-surprise-center {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(231, 76, 111, 0.3);
+}
+
+.gift-option-center {
+    max-width: 180px;
+    width: 100%;
+}
+
+.gift-option-center .gift-card {
+    min-height: 90px;
+    padding: 20px 16px;
+    border-width: 3px;
+}
+
+.gift-option-center .gift-emoji {
+    font-size: 2.2rem;
+    margin-bottom: 8px;
+}
+
+.gift-option-center .gift-text {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+@keyframes rainbowGradient {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes giftHover {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-2px);
+    }
+}
+
+.gift-option input[type="radio"]:checked+.gift-surprise {
+    animation: rainbowGradient 0.8s ease-in-out infinite, giftSelected 0.4s ease-out;
+    box-shadow: 0 6px 20px rgba(231, 76, 111, 0.5);
+}
+
+/* ---------- NOTIFICATION DE CADEAU ---------- */
+.gift-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 4000;
+    background: linear-gradient(135deg, var(--white), var(--pink-light));
+    border: 2px solid var(--red);
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: 0 8px 25px rgba(231, 76, 111, 0.3);
+    transform: translateX(100%);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 280px;
+}
+
+.gift-notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.gift-notification .notification-content p {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--text);
+    line-height: 1.4;
+}
+
+.gift-notification .notification-content p:first-child {
+    font-weight: 600;
+    color: var(--red);
+    margin-bottom: 4px;
+}
+
+.gift-notification .notification-content p:last-child {
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+/* Responsive pour mobile */
+@media (max-width: 480px) {
+    .gift-notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        transform: translateY(-100%);
+    }
+
+    .gift-notification.show {
+        transform: translateY(0);
+    }
+}
+
+/* Responsive pour les cadeaux */
+@media (max-width: 500px) {
+    .gifts-grid {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .gifts-column {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .gift-option {
+        flex: 0 0 calc(50% - 6px);
+    }
+
+    .gift-card {
+        min-height: 70px;
+        padding: 12px 8px;
+    }
+
+    .gift-emoji {
+        font-size: 1.4rem;
+        margin-bottom: 4px;
+    }
+
+    .gift-text {
+        font-size: 0.75rem;
+    }
+
+    /* Surprise centrée sur mobile */
+    .gift-surprise-center {
+        margin-top: 20px;
+        padding-top: 16px;
+    }
+
+    .gift-option-center {
+        max-width: 160px;
+    }
+
+    .gift-option-center .gift-card {
+        min-height: 80px;
+        padding: 16px 12px;
+    }
+
+    .gift-option-center .gift-emoji {
+        font-size: 1.8rem;
+    }
+
+    .gift-option-center .gift-text {
+        font-size: 0.9rem;
+    }
+}
+
+/* ---------- PROPOSITION DE DATE ---------- */
+.date-proposal {
+    margin: 28px 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #fff0f5, #ffeef2);
+    border-radius: 16px;
+    border: 1px solid rgba(231, 76, 111, 0.15);
+}
+
+.date-proposal h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--red);
+    margin-bottom: 8px;
+}
+
+.date-proposal p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-light);
+}
+
+/* ---------- IMAGE ROMANTIQUE ---------- */
+.romantic-image {
+    margin: 20px 0;
+}
+
+.couple-emoji {
+    font-size: 4rem;
+    animation: floatCouple 3s ease-in-out infinite;
+}
+
+@keyframes floatCouple {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* ---------- SECTION PARTAGE ---------- */
+.share-section {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px dashed var(--pink);
+}
+
+.share-section h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--red);
+    margin-bottom: 8px;
+}
+
+.share-hint {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin-bottom: 16px;
+}
+
+/* ---------- FORMULAIRE PERSONNALISATION ---------- */
+.personalize-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.personalize-form input {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: 12px 16px;
+    border: 2px solid var(--pink);
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.personalize-form input:focus {
+    border-color: var(--red);
+}
+
+.personalize-form input::placeholder {
+    color: #c9a0b0;
+}
+
+/* Style pour le select genre */
+.genre-select {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: 12px 16px;
+    border: 2px solid var(--pink);
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.3s;
+    cursor: pointer;
+}
+
+.genre-select:focus {
+    border-color: var(--red);
+}
+
+.genre-select option {
+    padding: 8px;
+}
+
+.btn-generate {
+    background: linear-gradient(135deg, var(--red), var(--pink));
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(231, 76, 111, 0.3);
+}
+
+.btn-generate:hover {
+    transform: scale(1.04);
+}
+
+/* ---------- LIEN GÉNÉRÉ ---------- */
+/* ---------- LIEN GÉNÉRÉ ---------- */
+.generated-link-box {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 12px;
+    animation: fadeInUp 0.4s ease-out both;
+}
+
+.link-section {
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    border: 1px solid var(--pink);
+}
+
+.link-section label {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.generated-link-input {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    padding: 10px 14px;
+    border: 2px solid var(--pink);
+    border-radius: 10px;
+    background: var(--pink-light);
+    color: var(--text);
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.link-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.link-actions .btn {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    flex: 1;
+    min-width: 100px;
+}
+
+.btn-visit {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: var(--white);
+}
+
+.btn-visit:hover {
+    transform: scale(1.04);
+}
+
+/* ---------- DASHBOARD EXPÉDITEUR ---------- */
+#sender-dashboard .card {
+    max-width: 700px;
+}
+
+.dashboard-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.responses-list {
+    margin: 20px 0;
+}
+
+.response-item {
+    background: linear-gradient(135deg, var(--white), var(--pink-light));
+    border: 2px solid var(--pink);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    animation: slideInLeft 0.4s ease-out both;
+}
+
+.response-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    border-bottom: 1px dashed var(--pink);
+    padding-bottom: 8px;
+}
+
+.response-number {
+    background: var(--red);
+    color: var(--white);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.response-time {
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+.response-content p {
+    margin: 4px 0;
+    font-size: 1rem;
+}
+
+.response-answer {
+    color: var(--red);
+    font-weight: 600;
+}
+
+.response-gift {
+    color: var(--text);
+    font-size: 1.1rem;
+}
+
+.no-responses {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-light);
+}
+
+.saved-notice {
+    font-size: 0.75rem;
+    color: #27ae60;
+    font-style: italic;
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.generated-link-box input {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    padding: 10px 14px;
+    border: 2px solid var(--pink);
+    border-radius: 10px;
+    background: var(--pink-light);
+    color: var(--text);
+    width: 100%;
+}
+
+.generated-link-box .btn {
+    font-size: 0.95rem;
+    padding: 10px 20px;
+}
+
+.btn-copy {
+    background: var(--white);
+    color: var(--text);
+    border: 2px solid var(--pink) !important;
+}
+
+.btn-copy:hover {
+    background: var(--pink-light);
+}
+
+.btn-share {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    color: var(--white);
+}
+
+.btn-share:hover {
+    transform: scale(1.04);
+}
+
+.copy-feedback {
+    font-size: 0.9rem;
+    color: #27ae60;
+    margin-top: 8px;
+    font-weight: 600;
+    animation: fadeInUp 0.3s ease-out both;
+}
+
+/* ---------- UTILITAIRES ---------- */
+.hidden {
+    display: none !important;
+}
+
+/* ---------- RESPONSIVE – TABLETTE & DESKTOP ---------- */
+@media (min-width: 600px) {
+    h1 {
+        font-size: 2.6rem;
+    }
+
+    #name-display {
+        font-size: 2rem;
+    }
+
+    .card {
+        padding: 50px 40px;
+    }
+
+    .btn {
+        font-size: 1.2rem;
+        padding: 16px 40px;
+    }
+
+    .generated-link-box {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .generated-link-box input {
+        flex: 1;
+        min-width: 200px;
+    }
+}
+
+@media (min-width: 900px) {
+    h1 {
+        font-size: 3rem;
+    }
+
+    .celebration-title {
+        font-size: 3rem;
+    }
+
+    .card {
+        padding: 60px 50px;
+        max-width: 560px;
+    }
+}
+
+/* ---------- ANIMATION POUR LE BOUTON QUI GROSSIT ---------- */
+.btn-yes.growing {
+    animation: growYes 0.4s ease forwards, glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes growYes {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.15);
+    }
+}
+
+/* ---------- SHAKE (quand "Non" est cliqué) ---------- */
+.shake {
+    animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-8px);
+    }
+
+    40% {
+        transform: translateX(8px);
+    }
+
+    60% {
+        transform: translateX(-6px);
+    }
+
+    80% {
+        transform: translateX(6px);
+    }
+}
+
+/* ---------- CONFETTI SHAPES VARIÉES ---------- */
+.confetti-piece {
+    position: absolute;
+    top: -20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: confettiRain linear forwards;
+    pointer-events: none;
+}
+
+@keyframes confettiRain {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(110vh) rotate(1080deg);
+        opacity: 0;
+    }
+}
+
+/* ---------- EXPLOSION CONFETTIS ---------- */
+.explosion-heart {
+    position: fixed;
+    font-size: 1.5rem;
+    animation: explodeHeart linear forwards;
+    pointer-events: none;
+    z-index: 1001;
+    filter: drop-shadow(0 2px 8px rgba(231, 76, 111, 0.4));
+}
+
+.explosion-piece {
+    position: fixed;
+    animation: explodePiece linear forwards;
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes explodeHeart {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translate(calc(cos(var(--angle)) * calc(var(--distance) * 0.7)),
+                calc(sin(var(--angle)) * calc(var(--distance) * 0.7))) rotate(180deg) scale(1.2);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: translate(calc(cos(var(--angle)) * var(--distance)),
+                calc(sin(var(--angle)) * var(--distance))) rotate(360deg) scale(0.3);
+        opacity: 0;
+    }
+}
+
+@keyframes explodePiece {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+
+    30% {
+        transform: translate(calc(cos(var(--angle)) * calc(var(--distance) * 0.4)),
+                calc(sin(var(--angle)) * calc(var(--distance) * 0.4))) rotate(120deg) scale(1.1);
+        opacity: 0.95;
+    }
+
+    70% {
+        transform: translate(calc(cos(var(--angle)) * calc(var(--distance) * 0.8)),
+                calc(sin(var(--angle)) * calc(var(--distance) * 0.8))) rotate(270deg) scale(0.7);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: translate(calc(cos(var(--angle)) * var(--distance)),
+                calc(sin(var(--angle)) * var(--distance))) rotate(480deg) scale(0.2);
+        opacity: 0;
+    }
+}

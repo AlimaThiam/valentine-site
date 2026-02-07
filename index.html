@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>💌 Veux-tu être ma Valentine ?</title>
+    <meta name="description" content="Une invitation spéciale pour la Saint-Valentin 💕" />
+
+    <!-- Favicon cœur -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>" />
+
+    <!-- Google Fonts – polices élégantes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Quicksand:wght@400;600&display=swap"
+        rel="stylesheet" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- ============================================= -->
+    <!--  CŒURS ANIMÉS EN ARRIÈRE-PLAN                -->
+    <!-- ============================================= -->
+    <div id="hearts-bg" aria-hidden="true"></div>
+
+    <!-- ============================================= -->
+    <!--  CONTENEUR DE CONFETTIS / CŒURS FESTIFS      -->
+    <!-- ============================================= -->
+    <div id="confetti-container" aria-hidden="true"></div>
+
+    <!-- ============================================= -->
+    <!--  BOUTON MUSIQUE                               -->
+    <!-- ============================================= -->
+    <button id="music-toggle" class="music-btn" title="Activer / Désactiver la musique">
+        🔇
+    </button>
+
+    <!-- ============================================= -->
+    <!--  ÉCRAN PRINCIPAL – LA QUESTION                -->
+    <!-- ============================================= -->
+    <main id="main-screen" class="screen active">
+        <div class="card fade-in">
+            <!-- Enveloppe animée -->
+            <div class="envelope-icon">💌</div>
+
+            <!-- Titre principal avec prénom dynamique -->
+            <h1 id="main-title">
+                <span id="name-display"></span>
+                <span id="valentine-question">Veux-tu être ma Valentine ? 💕</span>
+            </h1>
+
+            <!-- Message personnalisé (optionnel, via URL) -->
+            <p id="custom-message" class="custom-msg hidden"></p>
+
+            <!-- Boutons Oui / Non -->
+            <div class="buttons-row">
+                <button id="btn-yes" class="btn btn-yes">Oui 💖</button>
+                <button id="btn-no" class="btn btn-no">Non 🙄</button>
+            </div>
+
+            <!-- Compteur de tentatives caché (humour) -->
+            <p id="no-counter" class="no-counter hidden"></p>
+        </div>
+    </main>
+
+    <!-- ============================================= -->
+    <!--  ÉCRAN "OUI" – RÉPONSE POSITIVE 🎉           -->
+    <!-- ============================================= -->
+    <section id="yes-screen" class="screen">
+        <div class="card fade-in">
+            <div class="big-heart-anim">💖</div>
+
+            <h2 class="celebration-title">Ouiiii ! 🥳🎉</h2>
+
+            <p class="celebration-text">
+                Tu viens de rendre une personne <strong>très heureuse</strong> 🥰
+            </p>
+
+            <!-- Message secret -->
+            <div class="secret-box">
+                <button id="btn-secret" class="btn btn-secret">🔐 Ouvrir le message secret</button>
+                <div id="secret-content" class="secret-content hidden">
+                    <!-- Message secret personnalisé (via URL) ou poème par défaut -->
+                    <div id="secret-custom" class="hidden">
+                        <p class="secret-custom-text">💌</p>
+                    </div>
+                    <div id="secret-default">
+                        <p class="poem">
+                            🌹 <em>
+                                Mon cœur bat plus vite quand tu souris,<br />
+                                Chaque instant avec toi est un paradis,<br />
+                                Tu es mon étoile dans la nuit,<br />
+                                Mon coeur, mon plus beau défi. 💫
+                            </em>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bouquet de roses (overlay plein écran) -->
+            <div id="bouquet-overlay" class="bouquet-overlay hidden" aria-hidden="true">
+                <div class="bouquet">
+                    <div class="bouquet-roses">
+                        🌹🌹🌹<br />🌹🌹🌹🌹<br />🌹🌹🌹
+                    </div>
+                    <div class="bouquet-ribbon">🎀</div>
+                    <p class="bouquet-text">Pour toi… 💕</p>
+                </div>
+            </div>
+
+            <!-- Choix de cadeau -->
+            <div class="gift-selection">
+                <h3>🎁 Qu'est-ce qui te ferait plaisir ?</h3>
+                <p class="gift-hint">Choisis ton cadeau préféré :</p>
+
+                <div class="gifts-grid">
+                    <!-- Colonne gauche -->
+                    <div class="gifts-column gifts-left">
+                        <label class="gift-option">
+                            <input type="radio" name="gift" value="chocolats" />
+                            <div class="gift-card">
+                                <span class="gift-emoji">🍫</span>
+                                <span class="gift-text">Boîte de chocolats</span>
+                            </div>
+                        </label>
+
+                        <label class="gift-option">
+                            <input type="radio" name="gift" value="fleurs" />
+                            <div class="gift-card">
+                                <span class="gift-emoji">💐</span>
+                                <span class="gift-text">Bouquet de fleurs</span>
+                            </div>
+                        </label>
+
+                        <label class="gift-option">
+                            <input type="radio" name="gift" value="nounours" />
+                            <div class="gift-card">
+                                <span class="gift-emoji">🧸</span>
+                                <span class="gift-text">Nounours</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Colonne droite -->
+                    <div class="gifts-column gifts-right">
+                        <label class="gift-option">
+                            <input type="radio" name="gift" value="bijoux" />
+                            <div class="gift-card">
+                                <span class="gift-emoji">💎</span>
+                                <span class="gift-text">Bijoux</span>
+                            </div>
+                        </label>
+
+                        <label class="gift-option">
+                            <input type="radio" name="gift" value="argent" />
+                            <div class="gift-card">
+                                <span class="gift-emoji">💰</span>
+                                <span class="gift-text">Bouquet d'argent</span>
+                            </div>
+                        </label>
+
+                        <label class="gift-option">
+                            <input type="radio" name="gift" value="shein" />
+                            <div class="gift-card">
+                                <span class="gift-emoji">🛍️</span>
+                                <span class="gift-text">Valider ton panier SHEIN</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Option surprise centrée -->
+                <div class="gift-surprise-center">
+                    <label class="gift-option gift-option-center">
+                        <input type="radio" name="gift" value="surprise" />
+                        <div class="gift-card gift-surprise">
+                            <span class="gift-emoji">🎲</span>
+                            <span class="gift-text">Surprends-moi !</span>
+                        </div>
+                    </label>
+                </div>
+                <div id="gift-feedback" class="gift-feedback hidden">
+                    <p>✨ <span id="selected-gift"></span> ! Excellent choix ! 💕</p>
+                </div>
+            </div>
+
+            <!-- Image romantique -->
+            <div class="romantic-image">
+                <div class="couple-emoji">👩‍❤️‍👨</div>
+            </div>
+
+            <!-- Partage -->
+            <div class="share-section">
+                <h3>💌 Envoie aussi ta Valentine !</h3>
+                <p class="share-hint">Crée ton propre lien personnalisé :</p>
+
+                <div class="personalize-form">
+                    <input type="text" id="input-name" placeholder="Prénom du destinataire" maxlength="30" />
+                    <select id="input-genre" class="genre-select">
+                        <option value="f">💕 Valentine </option>
+                        <option value="m">💙 Valentin </option>
+                    </select>
+                    <input type="text" id="input-msg" placeholder="Ton message perso (optionnel)" maxlength="120" />
+                    <textarea id="input-secret" placeholder="💌 Ton message secret (optionnel)" maxlength="300"
+                        rows="3"></textarea>
+                    <button id="btn-generate" class="btn btn-generate">✨ Générer mon lien</button>
+                </div>
+
+                <div id="generated-link-box" class="generated-link-box hidden">
+                    <input type="text" id="generated-link" readonly />
+                    <button id="btn-copy" class="btn btn-copy">📋 Copier</button>
+                    <button id="btn-share" class="btn btn-share">📤 Partager</button>
+                </div>
+
+                <p id="copy-feedback" class="copy-feedback hidden">✅ Lien copié !</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!--  AUDIO – Musique romantique (boucle)          -->
+    <!-- ============================================= -->
+    <audio id="bg-music" loop preload="metadata">
+        <!-- Sources audio qui fonctionnent réellement -->
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg" />
+        <source src="https://freesound.org/data/previews/316/316847_4939433-lq.mp3" type="audio/mpeg" />
+        <!-- Si aucune source ne marche, on utilisera la synthèse -->
+    </audio>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+
+</html>
