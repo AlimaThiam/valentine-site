@@ -798,7 +798,6 @@ function sendGiftSelection(gift) {
     const responseURL = baseURL + '?' + responseParams.toString();
 
     // Texte de partage — le lien est DANS le texte pour être sûr qu'il est visible
-    const shareText = `💖 J'ai dit OUI ! Et j'ai choisi : ${giftNames[gift]} 🎁\n\n👇 Ouvre ce lien pour voir ma réponse :\n${responseURL}`;
 
     // Créer la notification avec bouton d'envoi
     const notification = document.createElement('div');
@@ -808,6 +807,7 @@ function sendGiftSelection(gift) {
             <p><strong>✅ ${giftNames[gift]} choisi !</strong></p>
             <p style="font-size:0.85rem; margin-top:8px;">Envoie ta réponse pour qu'il/elle sache 💌</p>
             <button id="btn-send-response" class="btn btn-share" style="margin-top:10px; width:100%; font-size:0.95rem; padding:12px;">📤 Envoyer ma réponse</button>
+            <p class="notif-timer" style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin-top:8px;">⏳ Cette notification disparaît dans <span id="notif-countdown">30</span>s</p>
         </div>
     `;
 
@@ -815,6 +815,19 @@ function sendGiftSelection(gift) {
 
     // Animation d'apparition
     setTimeout(() => notification.classList.add('show'), 100);
+
+    // Compte à rebours de 30 secondes
+    let secondsLeft = 30;
+    const countdownEl = document.getElementById('notif-countdown');
+    const countdownInterval = setInterval(() => {
+        secondsLeft--;
+        if (countdownEl) countdownEl.textContent = secondsLeft;
+        if (secondsLeft <= 0) {
+            clearInterval(countdownInterval);
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 500);
+        }
+    }, 1000);
 
     // Gestionnaire du bouton envoyer
     document.getElementById('btn-send-response').addEventListener('click', () => {
@@ -831,8 +844,6 @@ function sendGiftSelection(gift) {
             window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
         }
     });
-
-    // Ne PAS auto-fermer — on laisse le bouton visible
 }
 
 /**

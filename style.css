@@ -1355,3 +1355,24 @@ h1 {
         opacity: 0;
     }
 }
+
+/* ---------- SIGNATURE EN BAS ---------- */
+.site-signature {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(231, 76, 111, 0.25);
+    text-align: center;
+}
+
+.site-signature p {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: var(--text-light);
+    opacity: 0.8;
+    margin: 0;
+}
+
+.site-signature strong {
+    color: var(--red);
+    font-size: 1.05rem;
+}
