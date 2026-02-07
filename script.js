@@ -32,9 +32,6 @@ const inputMsg = document.getElementById("input-msg");
 const inputSecret = document.getElementById("input-secret");
 const btnGenerate = document.getElementById("btn-generate");
 const generatedLinkBox = document.getElementById("generated-link-box");
-const generatedLink = document.getElementById("generated-link");
-const btnCopy = document.getElementById("btn-copy");
-const btnShare = document.getElementById("btn-share");
 const copyFeedback = document.getElementById("copy-feedback");
 
 // ─── ÉTAT ───────────────────────────────────────
@@ -1025,26 +1022,15 @@ function shareLink(link, text) {
 }
 
 /* ================================================
-   10) COPIER LE LIEN (ANCIEN SYSTÈME - CONSERVÉ POUR COMPATIBILITÉ)
+   10) COPIER LE LIEN
    ================================================ */
-btnCopy.addEventListener("click", () => {
-    const link = generatedLink.value;
-
-    // Méthode moderne
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(link).then(() => {
-            showCopyFeedback();
-        }).catch(() => {
-            fallbackCopy(link);
-        });
-    } else {
-        fallbackCopy(link);
-    }
-});
-
 function fallbackCopy(text) {
-    generatedLink.select();
-    document.execCommand("copy");
+    const tempInput = document.createElement('input');
+    tempInput.value = text;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
     showCopyFeedback();
 }
 
@@ -1055,26 +1041,8 @@ function showCopyFeedback() {
 
 
 /* ================================================
-   11) PARTAGER (Web Share API ou WhatsApp fallback)
+   11) PARTAGER (intégré dans les boutons dynamiques)
    ================================================ */
-btnShare.addEventListener("click", () => {
-    const link = generatedLink.value;
-    const shareText = "💌 Quelqu'un a une question spéciale pour toi… Ouvre ce lien ! 💕";
-
-    if (navigator.share) {
-        navigator.share({
-            title: "💌 Seras-tu ma Valentine ?",
-            text: shareText,
-            url: link,
-        }).catch(() => {
-            // L'utilisateur a annulé – pas grave
-        });
-    } else {
-        // Fallback : ouvrir WhatsApp
-        const whatsappURL = `https://wa.me/?text=${encodeURIComponent(shareText + "\n" + link)}`;
-        window.open(whatsappURL, "_blank");
-    }
-});
 
 
 /* ================================================
