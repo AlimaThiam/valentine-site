@@ -637,17 +637,10 @@ h1 {
 }
 
 .gifts-grid {
-    display: flex;
-    gap: 16px;
-    justify-content: space-between;
-    margin-bottom: 16px;
-}
-
-.gifts-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
+    margin-bottom: 16px;
 }
 
 .gift-option {
@@ -857,18 +850,7 @@ h1 {
 /* Responsive pour les cadeaux */
 @media (max-width: 500px) {
     .gifts-grid {
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .gifts-column {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
-
-    .gift-option {
-        flex: 0 0 calc(50% - 6px);
+        gap: 10px;
     }
 
     .gift-card {
@@ -887,8 +869,8 @@ h1 {
 
     /* Surprise centrée sur mobile */
     .gift-surprise-center {
-        margin-top: 20px;
-        padding-top: 16px;
+        margin-top: 16px;
+        padding-top: 12px;
     }
 
     .gift-option-center {

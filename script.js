@@ -484,17 +484,22 @@ function handleNoTouch(e) {
 }
 
 function moveNoButton() {
-    // Passer en position fixe pour pouvoir le déplacer n'importe où
+    // Passer en position fixe pour pouvoir le déplacer
     btnNo.classList.add("runaway");
 
-    const padding = 20;
+    const padding = 40; // Marge de sécurité plus grande pour petits écrans
     const btnW = btnNo.offsetWidth;
     const btnH = btnNo.offsetHeight;
-    const maxX = window.innerWidth - btnW - padding;
-    const maxY = window.innerHeight - btnH - padding;
 
-    const newX = Math.max(padding, Math.random() * maxX);
-    const newY = Math.max(padding, Math.random() * maxY);
+    // Zone sûre : ne jamais dépasser les bords visibles
+    const safeMinX = padding;
+    const safeMinY = padding;
+    const safeMaxX = Math.max(safeMinX, window.innerWidth - btnW - padding);
+    const safeMaxY = Math.max(safeMinY, window.innerHeight - btnH - padding);
+
+    // Position aléatoire dans la zone visible
+    const newX = safeMinX + Math.random() * (safeMaxX - safeMinX);
+    const newY = safeMinY + Math.random() * (safeMaxY - safeMinY);
 
     btnNo.style.left = newX + "px";
     btnNo.style.top = newY + "px";
