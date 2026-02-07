@@ -798,6 +798,7 @@ function sendGiftSelection(gift) {
     const responseURL = baseURL + '?' + responseParams.toString();
 
     // Texte de partage — le lien est DANS le texte pour être sûr qu'il est visible
+    const shareText = `💖 Bonne nouvelle ! J'ai dit OUI à ta demande de Valentine ! 🥰\n\nEt pour le cadeau, j'ai choisi : ${giftNames[gift]}\n\n🎁 Ouvre ce lien pour voir ma réponse :\n${responseURL}\n\n💕 Joyeuse Saint-Valentin !`;
 
     // Créer la notification avec bouton d'envoi
     const notification = document.createElement('div');
