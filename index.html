@@ -103,17 +103,6 @@
                 </div>
             </div>
 
-            <!-- Bouquet de roses (overlay plein écran) -->
-            <div id="bouquet-overlay" class="bouquet-overlay hidden" aria-hidden="true">
-                <div class="bouquet">
-                    <div class="bouquet-roses">
-                        🌹🌹🌹<br />🌹🌹🌹🌹<br />🌹🌹🌹
-                    </div>
-                    <div class="bouquet-ribbon">🎀</div>
-                    <p class="bouquet-text">Pour toi… 💕</p>
-                </div>
-            </div>
-
             <!-- Choix de cadeau -->
             <div class="gift-selection">
                 <h3>🎁 Qu'est-ce qui te ferait plaisir ?</h3>
@@ -230,6 +219,17 @@
         <source src="https://freesound.org/data/previews/316/316847_4939433-lq.mp3" type="audio/mpeg" />
         <!-- Si aucune source ne marche, on utilisera la synthèse -->
     </audio>
+
+    <!-- Bouquet de roses (overlay plein écran – hors de .card pour que position:fixed marche sur mobile) -->
+    <div id="bouquet-overlay" class="bouquet-overlay hidden" aria-hidden="true">
+        <div class="bouquet">
+            <div class="bouquet-roses">
+                🌹🌹🌹<br />🌹🌹🌹🌹<br />🌹🌹🌹
+            </div>
+            <div class="bouquet-ribbon">🎀</div>
+            <p class="bouquet-text">Pour toi… 💕</p>
+        </div>
+    </div>
 
     <!-- Script -->
     <script src="script.js"></script>
