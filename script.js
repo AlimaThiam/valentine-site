@@ -907,16 +907,12 @@ btnGenerate.addEventListener("click", () => {
         return;
     }
 
-    // Générer un ID unique pour ce lien
-    const linkId = Date.now().toString(36) + Math.random().toString(36).substr(2);
-
     // Construire l'URL pour le destinataire
     const baseURL = window.location.origin + window.location.pathname;
     const params = new URLSearchParams();
 
     params.set("name", name);
     params.set("genre", genre);
-    params.set("id", linkId);
     if (msg) params.set("msg", msg);
     if (secret) params.set("secret", secret);
 
@@ -937,17 +933,15 @@ btnGenerate.addEventListener("click", () => {
     generatedLinkBox.classList.remove("hidden");
     copyFeedback.classList.add("hidden");
 
-    // Gestionnaires pour les nouveaux boutons
+    // Gestionnaires pour les boutons
     document.querySelectorAll('[data-link]').forEach(btn => {
         if (btn.classList.contains('btn-copy')) {
-            btn.addEventListener('click', (e) => {
-                const linkType = e.target.getAttribute('data-link');
-                const linkInput = document.getElementById(linkType === 'destinataire' ? 'destinataire-link' : 'sender-link');
+            btn.addEventListener('click', () => {
+                const linkInput = document.getElementById('destinataire-link');
                 copyToClipboard(linkInput.value);
             });
         } else if (btn.classList.contains('btn-share')) {
-            btn.addEventListener('click', (e) => {
-                const linkType = e.target.getAttribute('data-link');
+            btn.addEventListener('click', () => {
                 const linkInput = document.getElementById('destinataire-link');
                 shareLink(linkInput.value, `💌 Quelqu'un a une question spéciale pour toi… Ouvre ce lien ! 💕`);
             });
