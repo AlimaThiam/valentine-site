@@ -797,8 +797,8 @@ function sendGiftSelection(gift) {
     if (recipientName) responseParams.set('from', recipientName);
     const responseURL = baseURL + '?' + responseParams.toString();
 
-    // Texte de partage
-    const shareText = `💖 J'ai dit OUI ! Et j'ai choisi : ${giftNames[gift]} 🎁\nVoir ma réponse ici 👇`;
+    // Texte de partage — le lien est DANS le texte pour être sûr qu'il est visible
+    const shareText = `💖 J'ai dit OUI ! Et j'ai choisi : ${giftNames[gift]} 🎁\n\n👇 Ouvre ce lien pour voir ma réponse :\n${responseURL}`;
 
     // Créer la notification avec bouton d'envoi
     const notification = document.createElement('div');
@@ -818,17 +818,17 @@ function sendGiftSelection(gift) {
 
     // Gestionnaire du bouton envoyer
     document.getElementById('btn-send-response').addEventListener('click', () => {
+        // Toujours utiliser WhatsApp/SMS avec le lien DANS le texte
         if (navigator.share) {
             navigator.share({
                 title: '💖 Réponse Valentine',
                 text: shareText,
-                url: responseURL,
             }).catch(() => {
-                // Fallback WhatsApp si annulé
-                window.open(`https://wa.me/?text=${encodeURIComponent(shareText + '\n' + responseURL)}`, '_blank');
+                // Fallback WhatsApp
+                window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
             });
         } else {
-            window.open(`https://wa.me/?text=${encodeURIComponent(shareText + '\n' + responseURL)}`, '_blank');
+            window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
         }
     });
 
