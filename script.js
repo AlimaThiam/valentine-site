@@ -777,6 +777,10 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  * Quand le destinataire choisit un cadeau, on lui propose d'envoyer sa réponse
  */
+// Variable pour suivre la notification active et son intervalle
+let activeNotification = null;
+let activeCountdownInterval = null;
+
 function sendGiftSelection(gift) {
     const giftNames = {
         chocolats: "🍫 Boîte de chocolats",
@@ -787,6 +791,13 @@ function sendGiftSelection(gift) {
         shein: "🛍️ Panier SHEIN",
         surprise: "🎲 Surprise"
     };
+
+    // Supprimer l'ancienne notification si elle existe (évite les doublons)
+    if (activeNotification) {
+        clearInterval(activeCountdownInterval);
+        activeNotification.remove();
+        activeNotification = null;
+    }
 
     // Construire l'URL de réponse que l'expéditeur pourra ouvrir
     const baseURL = window.location.origin + window.location.pathname;
@@ -807,32 +818,40 @@ function sendGiftSelection(gift) {
         <div class="notification-content">
             <p><strong>✅ ${giftNames[gift]} choisi !</strong></p>
             <p style="font-size:0.85rem; margin-top:8px;">Envoie ta réponse pour qu'il/elle sache 💌</p>
-            <button id="btn-send-response" class="btn btn-share" style="margin-top:10px; width:100%; font-size:0.95rem; padding:12px;">📤 Envoyer ma réponse</button>
-            <p class="notif-timer" style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin-top:8px;">⏳ Cette notification disparaît dans <span id="notif-countdown">30</span>s</p>
+            <button class="btn btn-share btn-send-response" style="margin-top:10px; width:100%; font-size:0.95rem; padding:12px;">📤 Envoyer ma réponse</button>
+            <p class="notif-timer" style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin-top:8px;">⏳ Cette notification disparaît dans <span class="notif-countdown">30</span>s</p>
         </div>
     `;
 
     document.body.appendChild(notification);
+    activeNotification = notification;
+
+    // Récupérer les éléments DANS cette notification spécifique (pas par ID global)
+    const sendBtn = notification.querySelector('.btn-send-response');
+    const countdownEl = notification.querySelector('.notif-countdown');
 
     // Animation d'apparition
     setTimeout(() => notification.classList.add('show'), 100);
 
     // Compte à rebours de 30 secondes
     let secondsLeft = 30;
-    const countdownEl = document.getElementById('notif-countdown');
-    const countdownInterval = setInterval(() => {
+    activeCountdownInterval = setInterval(() => {
         secondsLeft--;
         if (countdownEl) countdownEl.textContent = secondsLeft;
         if (secondsLeft <= 0) {
-            clearInterval(countdownInterval);
+            clearInterval(activeCountdownInterval);
             notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 500);
+            setTimeout(() => {
+                notification.remove();
+                if (activeNotification === notification) activeNotification = null;
+            }, 500);
         }
     }, 1000);
 
-    // Gestionnaire du bouton envoyer
-    document.getElementById('btn-send-response').addEventListener('click', () => {
-        // Toujours utiliser WhatsApp/SMS avec le lien DANS le texte
+    // Gestionnaire du bouton envoyer — attaché directement à l'élément dans cette notification
+    sendBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // Utiliser navigator.share ou fallback WhatsApp
         if (navigator.share) {
             navigator.share({
                 title: '💖 Réponse Valentine',

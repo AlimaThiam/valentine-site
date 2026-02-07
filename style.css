@@ -832,6 +832,17 @@ h1 {
     font-style: italic;
 }
 
+/* Bouton envoyer dans la notification */
+.gift-notification .btn-send-response {
+    display: block;
+    cursor: pointer;
+    position: relative;
+    z-index: 4001;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+}
+
 /* Responsive pour mobile */
 @media (max-width: 480px) {
     .gift-notification {
